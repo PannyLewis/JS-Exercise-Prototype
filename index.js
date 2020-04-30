@@ -19,7 +19,6 @@ Airplane.prototype.land = function () {
   this.isFlying = false;
 };
 
-
 /*
 // 👇 COMPLETE YOUR WORK BELOW 👇
 // 👇 COMPLETE YOUR WORK BELOW 👇
@@ -38,9 +37,25 @@ Airplane.prototype.land = function () {
     - Give instances of Person a method `.toString()`:
         + It should return a string with `name` and `age`. Example: "Mary, 50"
 */
+// this is a constructor
+function Person(name, age) {
+  this.name = name;
+  this.age = age;
+  this.stomach = [];
 
-function Person() {
+  Person.prototype.eat = function (edible) {
+    if (this.stomach.length < 10) {
+      this.stomach.push(edible);
+    }
+  };
 
+  Person.prototype.poop = function () {
+    this.stomach = [];
+  };
+
+  Person.prototype.toString = function () {
+    return `${this.name}, ${this.age}`;
+  };
 }
 
 /*
@@ -57,8 +72,25 @@ function Person() {
         + The `drive` method should return a string "I ran out of fuel at x miles!" x being `odometer`.
 */
 
-function Car() {
+function Car(model, milesPerGallon) {
+  this.model = model;
+  this.milesPerGallon = milesPerGallon;
+  this.tank = 0;
+  this.odometer = 0;
+  this.gallonUsed = 0;
 
+  Car.prototype.fill = function (gallons) {
+    return (this.tank = this.tank + gallons);
+  };
+
+  // Car.prototype.drive = function (distance) {
+  //   if (this.tank > 0) {
+  //     this.odometer += distance;
+  //     let gallonUsed = this.tank - gallonUsed;
+  //   } else {
+  //     return `I ran out of fuel at ${this.odometer} miles!`;
+  //   }
+  // };
 }
 
 /*
@@ -68,28 +100,40 @@ function Car() {
     - Besides the methods on Person.prototype, babies have the ability to `.play()`:
         + Should return a string "Playing with x", x being the favorite toy.
 */
-function Baby() {
-
+function Baby(name, age, favoriteToy) {
+  Person.call(this, name, age);
+  this.favoriteToy = favoriteToy;
+  Baby.prototype = Object.create(Person.prototype);
+  Baby.prototype.play = function () {
+    return `Playing with ${this.favoriteToy}.`;
+  };
 }
 
 /* 
   TASK 4
 
   In your own words explain the four principles for the "this" keyword below:
-  1. 
-  2. 
-  3. 
-  4. 
+  1. Window/Global - if you don't enclose this in any block then it is going to refer to whatever is in the entire console, it will freely point to whatever and not to anything specific.
+  2. Implicit - means that you don't have to tell it that it is associated with the object that it is in but automatically  it knows that you are referring to the object because the this is in that object
+  3. New - means that when you use it in a constructor to make a copy of that object, the this automatically is linked/associated/bound to the the new object.
+  4. Explicit - means you tell it directly that now you want "this" to be linked/associated/bound to another function or method.  Call/apply/bind methods to point `this` to a specific Object.
 */
 
-
 ///////// END OF CHALLENGE /////////
 ///////// END OF CHALLENGE /////////
 ///////// END OF CHALLENGE /////////
-if (typeof exports !== 'undefined') {
-  module.exports = module.exports || {}
-  if (Airplane) { module.exports.Airplane = Airplane }
-  if (Person) { module.exports.Person = Person }
-  if (Car) { module.exports.Car = Car }
-  if (Baby) { module.exports.Baby = Baby }
+if (typeof exports !== "undefined") {
+  module.exports = module.exports || {};
+  if (Airplane) {
+    module.exports.Airplane = Airplane;
+  }
+  if (Person) {
+    module.exports.Person = Person;
+  }
+  if (Car) {
+    module.exports.Car = Car;
+  }
+  if (Baby) {
+    module.exports.Baby = Baby;
+  }
 }
